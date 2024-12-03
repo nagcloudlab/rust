@@ -66,7 +66,12 @@ impl LivingThing for Robot {
 // Open for extension - Closed for modification Principle
 struct God;
 impl God {
-    fn create_livingthig(lt_type:String) -> Option<Box<dyn LivingThing>> {
+
+     fn create_livingthig_v1<>(lt_type:String) -> Option<Box<Human>> {
+            Some(Box::new(Human{name:"".to_string()}))
+    }
+
+    fn create_livingthig_v2(lt_type:String) -> Option<Box<dyn LivingThing>> {
         match lt_type.as_str() {
             "Human" => Some(Box::new(Human{name:"".to_string()})),
             "Animal" => Some(Box::new(Animal{name:"".to_string()})),
@@ -74,20 +79,27 @@ impl God {
             _ => None,
         }
     }
-    fn manage_livingthing_v1(thing: Box<dyn LivingThing>) {
+
+
+    fn manage_livingthing_v1<T:LivingThing>(thing: T) {
         thing.eat();
         thing.sleep();
         thing.work();
     }
+
+    fn manage_livingthing_v2(thing: Box<dyn LivingThing>) {
+        thing.eat();
+        thing.sleep();
+        thing.work();
+    }
+
+
 }
 
 fn main(){
 
-    let human = God::create_livingthig("Human".to_string());
-    God::manage_livingthing_v1(human.unwrap());
-
-
-
+    let human = God::create_livingthig_v1("Human".to_string());
+    God::manage_livingthing_v2(human.unwrap());
 
 
 }
