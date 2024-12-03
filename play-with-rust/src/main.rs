@@ -1,105 +1,47 @@
 
-// LT
-// - eat()
-// - sleep()
-// - work()
-
-trait LivingThing {
-    fn name(&self) -> String;
-    fn eat(&self);
-    fn work(&self);
-    fn sleep(&self){
-        println!("{} is sleeping",self.name());
-    }
-}
-
-struct Human {
-    name: String,
-}
-
-impl LivingThing for Human {
-    fn name(&self) -> String {
-        self.name.clone()
-    }
-    fn eat(&self) {
-        println!("{} is eating", self.name);
-    }
-    fn work(&self) {
-        println!("{} is working", self.name);
-    }
+trait Incrementer{
+    type V;
+    fn increment(&mut self) -> Self::V;
 }
 
 
-struct Animal {
-    name: String,
+struct Counter1{
+    count: i32
 }
 
-impl LivingThing for Animal {
-    fn name(&self) -> String {
-        self.name.clone()
+impl Incrementer for Counter1{
+    type V = i32;
+    fn increment(&mut self) -> Self::V{
+        self.count += 1;
+        self.count
     }
-    fn eat(&self) {
-        println!("{} is eating", self.name);
-    }
-    fn work(&self) {
-        println!("{} is working", self.name);
-    }
+    
 }
 
-struct Robot {
-    name: String,
+struct Counter2{
+    count: i64
 }
 
-impl LivingThing for Robot {
-    fn name(&self) -> String {
-        self.name.clone()
+impl Incrementer for Counter2{
+    type V = i64;
+    fn increment(&mut self) -> Self::V{
+        self.count += 1;
+        self.count
     }
-    fn eat(&self) {
-        println!("{} is eating", self.name);
-    }
-    fn work(&self) {
-        println!("{} is working", self.name);
-    }
-}
-
-
-// Open for extension - Closed for modification Principle
-struct God;
-impl God {
-
-     fn create_livingthig_v1<>(lt_type:String) -> Option<Box<Human>> {
-            Some(Box::new(Human{name:"".to_string()}))
-    }
-
-    fn create_livingthig_v2(lt_type:String) -> Option<Box<dyn LivingThing>> {
-        match lt_type.as_str() {
-            "Human" => Some(Box::new(Human{name:"".to_string()})),
-            "Animal" => Some(Box::new(Animal{name:"".to_string()})),
-            "Robot" => Some(Box::new(Robot{name:"".to_string()})),
-            _ => None,
-        }
-    }
-
-
-    fn manage_livingthing_v1<T:LivingThing>(thing: T) {
-        thing.eat();
-        thing.sleep();
-        thing.work();
-    }
-
-    fn manage_livingthing_v2(thing: Box<dyn LivingThing>) {
-        thing.eat();
-        thing.sleep();
-        thing.work();
-    }
-
-
+    
 }
 
 fn main(){
 
-    let human = God::create_livingthig_v1("Human".to_string());
-    God::manage_livingthing_v2(human.unwrap());
+    let mut counter1 = Counter1{count: 0};
+    let mut counter2 = Counter2{count: 0};
 
+    println!("Counter1: {}", counter1.increment());
+    println!("Counter1: {}", counter1.increment());
+    println!("Counter1: {}", counter1.increment());
+
+    println!("Counter2: {}", counter2.increment());
+    println!("Counter2: {}", counter2.increment());
+    println!("Counter2: {}", counter2.increment());
 
 }
