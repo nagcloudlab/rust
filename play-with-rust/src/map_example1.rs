@@ -1,3 +1,4 @@
+#[allow(unused_variables)]
 
 pub fn find_total_price_of_each_dep(){
     let csv_report=[

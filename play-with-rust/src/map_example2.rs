@@ -1,7 +1,7 @@
+// #[allow(unused_variables)]
 
 // create map  with key as Owner and value as Car
 // input key ( i.e Owner ) and get value ( i.e Car )
-
 
 struct Owner {
     name: String,
@@ -24,8 +24,6 @@ impl std::cmp::PartialEq for Owner {
         self.name == other.name
     }
 }
-
-
 
 struct Car {
     model: String,
@@ -67,5 +65,7 @@ pub fn get_car_details(){
         Some(car) => println!("Car details for owner1: model: {}, year: {}", car.model, car.year),
         None => println!("Car details not found for owner1"),
     }
+
+    
 
 }
